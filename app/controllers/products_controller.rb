@@ -1,4 +1,6 @@
 class ProductsController < ApplicationController
+  before_action :authenticate_user!
+  
   before_action :set_product, only: [:show, :edit, :update, :destroy]
 
   # GET /products
@@ -61,6 +63,11 @@ class ProductsController < ApplicationController
       format.html { redirect_to products_url, notice: 'Product was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def items_by_category
+    @products = Product.where(category: params[:category_id])
+    @category = Category.find(params[:category_id])
   end
 
   private
